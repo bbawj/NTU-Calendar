@@ -23,3 +23,12 @@ li {
   height: 600px;
   justify-content: space-between;
 }
+
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.calendarHeader > h2 {
+  margin-right: 1em;
+}

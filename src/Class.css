@@ -1,0 +1,26 @@
+.cell {
+  padding: 1em;
+  border-radius: 5px;
+}
+
+.colorButtons {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+}
+
+.cell .MuiFilledInput-root::before {
+  border: none;
+}
+
+.cell .MuiFilledInput-input {
+  border: none;
+  padding: 0.5em;
+}
+
+.Lavender {
+  background-color: #7986cb;
+}
+.Sage {
+  background-color: #33b679;
+}

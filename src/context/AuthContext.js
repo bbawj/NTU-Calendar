@@ -8,7 +8,8 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [gapi, setGapi] = useState();
 
-  const value = { isLoggedIn, setIsLoggedIn };
+  const value = { isLoggedIn, setIsLoggedIn, gapi, setGapi };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

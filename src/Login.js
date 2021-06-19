@@ -4,9 +4,8 @@ import { useAuth } from "./context/AuthContext";
 import "./Login.css";
 
 export default function Login() {
-  const [gapi, setGapi] = useState();
   const [googleAuth, setGoogleAuth] = useState();
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { isLoggedIn, setIsLoggedIn, gapi, setGapi } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [imageUrl, setImageUrl] = useState();
