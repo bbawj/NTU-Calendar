@@ -1,0 +1,25 @@
+.dayHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+li {
+  list-style: none;
+  padding: 1em;
+  font-size: 2rem;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 0.5em;
+  padding: 1em;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+  justify-content: space-between;
+}
