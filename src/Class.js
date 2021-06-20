@@ -50,10 +50,8 @@ function Class({ day, text, semester, idx, info, updateInfo }) {
   }
   const beginning = time.split("to")[0];
   const end = time.split("to")[1];
-  const startTime = `${date}T${beginning.slice(0, 2)}:${beginning.slice(
-    2
-  )}:00+00:00`;
-  const endTime = `${date}T${end.slice(0, 2)}:${end.slice(2)}:00+00:00`;
+  const startTime = `${date}T${beginning.slice(0, 2)}:${beginning.slice(2)}:00`;
+  const endTime = `${date}T${end.slice(0, 2)}:${end.slice(2)}:00`;
 
   const data = {
     summary: `${classCode} ${classType} ${classGrp}`,
@@ -67,6 +65,7 @@ function Class({ day, text, semester, idx, info, updateInfo }) {
       timeZone: "Asia/Singapore",
     },
     colorId: "1",
+    recurrence: ["RRULE:FREQ=WEEKLY;COUNT=13"],
   };
 
   function handleColorChange(e) {
@@ -86,68 +85,76 @@ function Class({ day, text, semester, idx, info, updateInfo }) {
 
   return (
     <div className={`cell ${color}`}>
-      <p>{text}</p>
-      <Select
-        disableUnderline
-        value={color}
-        onChange={handleColorChange}
-        variant="filled"
-      >
-        <MenuItem value="Lavender">
-          <div
-            style={{ backgroundColor: "#7986cb" }}
-            class="colorButtons"
-          ></div>
-        </MenuItem>
-        <MenuItem value="Sage">
-          <div
-            style={{ backgroundColor: "#33b679" }}
-            class="colorButtons"
-          ></div>
-        </MenuItem>
-        <MenuItem value="Grape">
-          <div
-            style={{ backgroundColor: "#8e24aa" }}
-            class="colorButtons"
-          ></div>
-        </MenuItem>
-        <MenuItem value="Flamingo">
-          <div
-            style={{ backgroundColor: "#e67c73" }}
-            class="colorButtons"
-          ></div>
-        </MenuItem>
-        <MenuItem value="Banana">
-          <div
-            style={{ backgroundColor: "#f6c026" }}
-            class="colorButtons"
-          ></div>
-        </MenuItem>
-        <MenuItem value="Tangerine">
-          <div
-            style={{ backgroundColor: "#f5511d" }}
-            class="colorButtons"
-          ></div>
-        </MenuItem>
-        <MenuItem value="Peacock">
-          <div
-            style={{ backgroundColor: "#039be5" }}
-            class="colorButtons"
-          ></div>
-        </MenuItem>
-        <MenuItem value="Graphite">
-          <div
-            style={{ backgroundColor: "#616161" }}
-            class="colorButtons"
-          ></div>
-        </MenuItem>
-        <MenuItem value="Blueberry">
-          <div
-            style={{ backgroundColor: "#3f51b5" }}
-            class="colorButtons"
-          ></div>
-        </MenuItem>
-      </Select>
+      <p>{text.slice(0, -1)}</p>
+      <div className="selectContainer">
+        <Select
+          disableUnderline
+          value={color}
+          onChange={handleColorChange}
+          variant="filled"
+        >
+          <MenuItem value="Lavender">
+            <div
+              style={{ backgroundColor: "#7986cb" }}
+              className="colorButtons"
+            ></div>
+          </MenuItem>
+          <MenuItem value="Sage">
+            <div
+              style={{ backgroundColor: "#33b679" }}
+              className="colorButtons"
+            ></div>
+          </MenuItem>
+          <MenuItem value="Grape">
+            <div
+              style={{ backgroundColor: "#8e24aa" }}
+              className="colorButtons"
+            ></div>
+          </MenuItem>
+          <MenuItem value="Flamingo">
+            <div
+              style={{ backgroundColor: "#e67c73" }}
+              className="colorButtons"
+            ></div>
+          </MenuItem>
+          <MenuItem value="Banana">
+            <div
+              style={{ backgroundColor: "#f6c026" }}
+              className="colorButtons"
+            ></div>
+          </MenuItem>
+          <MenuItem value="Tangerine">
+            <div
+              style={{ backgroundColor: "#f5511d" }}
+              className="colorButtons"
+            ></div>
+          </MenuItem>
+          <MenuItem value="Peacock">
+            <div
+              style={{ backgroundColor: "#039be5" }}
+              className="colorButtons"
+            ></div>
+          </MenuItem>
+          <MenuItem value="Graphite">
+            <div
+              style={{ backgroundColor: "#616161" }}
+              className="colorButtons"
+            ></div>
+          </MenuItem>
+          <MenuItem value="Blueberry">
+            <div
+              style={{ backgroundColor: "#3f51b5" }}
+              className="colorButtons"
+            ></div>
+          </MenuItem>
+          <MenuItem value="Tomato">
+            <div
+              style={{ backgroundColor: "#d60000" }}
+              className="colorButtons"
+            ></div>
+          </MenuItem>
+        </Select>
+      </div>
     </div>
   );
 }

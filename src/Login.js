@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { loadGoogleScript } from "./util/GoogleLogin";
 import { useAuth } from "./context/AuthContext";
 import "./Login.css";
+import { Button } from "@material-ui/core";
+import { ExitToApp } from "@material-ui/icons";
 
 export default function Login() {
   const [googleAuth, setGoogleAuth] = useState();
@@ -31,13 +33,13 @@ export default function Login() {
       renderSigninButton(gapi);
     })();
   };
-
+  console.log(googleAuth);
   const renderSigninButton = (_gapi) => {
     // (Ref. 6)
     _gapi.signin2.render("google-signin", {
       scope: "profile email",
-      width: 240,
-      height: 50,
+      width: 200,
+      height: 40,
       longtitle: true,
       theme: "dark",
       onsuccess: onSuccess,
@@ -79,12 +81,23 @@ export default function Login() {
   return (
     <div className="login">
       <h1>NTU Calendar</h1>
-      {isLoggedIn ? (
-        <button onClick={logOut}>Logout</button>
-      ) : (
-        <div id="google-signin"></div>
-      )}
-      <p>{googleAuth && `Logged in as ${googleAuth.currentUser.get()}`}</p>
+      <div className="loginDisplay">
+        <p>
+          {isLoggedIn &&
+            googleAuth &&
+            `Logged in as ${googleAuth.currentUser
+              .get()
+              .getBasicProfile()
+              .getName()}`}
+        </p>
+        {isLoggedIn ? (
+          <Button color="secondary" endIcon={<ExitToApp />} onClick={logOut}>
+            Logout
+          </Button>
+        ) : (
+          <div id="google-signin"></div>
+        )}
+      </div>
     </div>
   );
 }

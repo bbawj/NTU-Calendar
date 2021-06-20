@@ -9,10 +9,17 @@
   border-radius: 50%;
 }
 
+.selectContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .cell .MuiFilledInput-root::before {
   border: none;
 }
-
+.cell .MuiFilledInput-root {
+  margin-top: 0.5em;
+}
 .cell .MuiFilledInput-input {
   border: none;
   padding: 0.5em;
@@ -36,4 +43,32 @@
 }
 .Sage {
   background-color: #33b679;
+}
+
+.Grape {
+  background-color: #8e24aa;
+}
+.Flamingo {
+  background-color: #e67c73;
+}
+.Banana {
+  background-color: #f6c026;
+}
+.Tangerine {
+  background-color: #f5511d;
+}
+.Peacock {
+  background-color: #039be5;
+}
+.Graphite {
+  background-color: #616161;
+}
+.Blueberry {
+  background-color: #3f51b5;
+}
+.Basil {
+  background-color: #0b8043;
+}
+.Tomato {
+  background-color: #d60000;
 }

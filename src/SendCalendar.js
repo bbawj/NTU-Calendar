@@ -34,6 +34,7 @@ export default function SendCalendar({ info }) {
             summary: event.summary,
             location: event.location,
             colorId: event.colorId,
+            recurrence: event.recurrence,
           },
         });
         batch.add(addEvent);
@@ -50,10 +51,17 @@ export default function SendCalendar({ info }) {
   }
   return (
     <div>
-      <Backdrop open={loading}>
-        <CircularProgress color="inherit" />
+      <Backdrop open={loading} style={{ zIndex: 2 }}>
+        <CircularProgress color="primary" />
       </Backdrop>
-      <Button onClick={handleConfirm}>CONFIRM AND SEND</Button>
+      <Button
+        style={{ marginLeft: "1em" }}
+        color="primary"
+        variant="outlined"
+        onClick={handleConfirm}
+      >
+        CONFIRM AND SEND
+      </Button>
       {error && <p style={{ color: "red" }}>Failed to update calendar.</p>}
     </div>
   );

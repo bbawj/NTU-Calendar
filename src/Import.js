@@ -3,9 +3,11 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { Button } from "@material-ui/core";
 import Calendar from "./Calendar";
 import "./Calendar.css";
+import { useAuth } from "./context/AuthContext";
 
 function Import() {
   const [table, setTable] = useState({});
+  const { isLoggedIn } = useAuth();
   let spanArr = [];
 
   let grid = {
@@ -79,16 +81,18 @@ function Import() {
 
   return (
     <div>
-      <div className="uploadButton">
-        <Button
-          variant="contained"
-          color="default"
-          onClick={() => document.getElementById("importCalendar").click()}
-          startIcon={<CloudUploadIcon />}
-        >
-          Upload
-        </Button>
-      </div>
+      {isLoggedIn && (
+        <div className="uploadButton">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => document.getElementById("importCalendar").click()}
+            startIcon={<CloudUploadIcon />}
+          >
+            Upload
+          </Button>
+        </div>
+      )}
       <input
         id="importCalendar"
         hidden="hidden"
