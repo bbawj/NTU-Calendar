@@ -5,12 +5,12 @@ import SendCalendar from "./SendCalendar";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useAuth } from "./context/AuthContext";
-import DemoImage from "./img/demo2.png";
+import DemoImage1 from "./img/demo.png";
+import DemoImage2 from "./img/demo3.png";
 
 function Calendar({ table }) {
-  const [classInfo, setClassInfo] = useState([]);
   const [semester, setSemester] = useState(1);
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, classInfo, setClassInfo } = useAuth();
   const days = ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
   console.log(classInfo);
   let i = 0;
@@ -45,8 +45,6 @@ function Calendar({ table }) {
                       key={idx}
                       semester={semester}
                       idx={i}
-                      info={classInfo}
-                      updateInfo={setClassInfo}
                     />
                   );
                 }
@@ -56,7 +54,23 @@ function Calendar({ table }) {
           ))}
         </div>
       )}
-      {classInfo.length === 0 && <img src={DemoImage} alt="demo" />}
+      {classInfo.length === 0 && (
+        <div className="demoImage">
+          <div>
+            <img src={DemoImage1} alt="demo" />
+            <p>
+              Grab HTML file of your calendar from{" "}
+              <a href="https://wish.wis.ntu.edu.sg/pls/webexe/ldap_login.login?w_url=https://wish.wis.ntu.edu.sg/pls/webexe/aus_stars_planner.main">
+                STARS
+              </a>
+            </p>
+          </div>
+          <div>
+            <img src={DemoImage2} alt="demo" />
+            <p>Upload and sync to Google Calendar!</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

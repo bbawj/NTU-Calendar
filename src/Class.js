@@ -2,9 +2,11 @@ import { MenuItem } from "@material-ui/core";
 import { Select } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import "./Class.css";
+import { useAuth } from "./context/AuthContext";
 
-function Class({ day, text, semester, idx, info, updateInfo }) {
+function Class({ day, text, semester, idx }) {
   const [color, setColor] = useState("Lavender");
+  const { classInfo, setClassInfo } = useAuth();
   const colorIdList = [
     "Lavender",
     "Sage",
@@ -70,17 +72,17 @@ function Class({ day, text, semester, idx, info, updateInfo }) {
 
   function handleColorChange(e) {
     setColor(e.target.value);
-    const copy = Array.from(info);
+    const copy = Array.from(classInfo);
     const itemcopy = copy[idx - 1];
     copy[idx - 1] = {
       ...itemcopy,
       colorId: (colorIdList.indexOf(e.target.value) + 1).toString(),
     };
-    updateInfo(copy);
+    setClassInfo(copy);
   }
 
   useEffect(() => {
-    updateInfo((prev) => [...prev, data]);
+    setClassInfo((prev) => [...prev, data]);
   }, []);
 
   return (

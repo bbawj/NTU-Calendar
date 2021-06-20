@@ -33,7 +33,6 @@ export default function Login() {
       renderSigninButton(gapi);
     })();
   };
-  console.log(googleAuth);
   const renderSigninButton = (_gapi) => {
     // (Ref. 6)
     _gapi.signin2.render("google-signin", {

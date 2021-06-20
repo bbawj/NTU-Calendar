@@ -3,6 +3,30 @@
   align-items: center;
   justify-content: center;
 }
+.demoImage {
+  display: flex;
+  margin-top: 1em;
+}
+.demoImage img {
+  width: 100%;
+  padding: 1em 6em;
+}
+.demoImage > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 600px) {
+  .demoImage {
+    flex-direction: column;
+    margin-top: 1em;
+  }
+  .demoImage img {
+    width: 100%;
+    padding: 2em;
+  }
+}
 
 li {
   list-style: none;
