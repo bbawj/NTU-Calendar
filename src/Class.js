@@ -3,15 +3,34 @@ import { Select } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import "./Class.css";
 
-function Class({ text, semester, idx, info, updateInfo }) {
+function Class({ day, text, semester, idx, info, updateInfo }) {
   const [color, setColor] = useState("Lavender");
+  const colorIdList = [
+    "Lavender",
+    "Sage",
+    "Grape",
+    "Flamingo",
+    "Banana",
+    "Tangerine",
+    "Peacock",
+    "Graphite",
+    "Blueberry",
+    "Basil",
+    "Tomato",
+  ];
   const checkMerge = text.split(";");
   let date;
   // semester start dates
   if (semester === 1) {
-    date = "2021-08-09";
+    const baseDate = new Date(
+      new Date("2021-08-09").getTime() + day * 24 * 60 * 60 * 1000
+    );
+    date = baseDate.toISOString().slice(0, 10);
   } else {
-    date = "2022-01-10";
+    const baseDate = new Date(
+      new Date("2022-01-10").getTime() + day * 24 * 60 * 60 * 1000
+    );
+    date = baseDate.toISOString().slice(0, 10);
   }
 
   const splitText = checkMerge[0].split(" ");
@@ -31,8 +50,10 @@ function Class({ text, semester, idx, info, updateInfo }) {
   }
   const beginning = time.split("to")[0];
   const end = time.split("to")[1];
-  const startTime = `${date}T${beginning.slice(0, 2)}:${beginning.slice(2)}`;
-  const endTime = `${date}T${end.slice(0, 2)}:${end.slice(2)}`;
+  const startTime = `${date}T${beginning.slice(0, 2)}:${beginning.slice(
+    2
+  )}:00+00:00`;
+  const endTime = `${date}T${end.slice(0, 2)}:${end.slice(2)}:00+00:00`;
 
   const data = {
     summary: `${classCode} ${classType} ${classGrp}`,
@@ -45,13 +66,17 @@ function Class({ text, semester, idx, info, updateInfo }) {
       dateTime: endTime,
       timeZone: "Asia/Singapore",
     },
+    colorId: "1",
   };
 
   function handleColorChange(e) {
     setColor(e.target.value);
     const copy = Array.from(info);
     const itemcopy = copy[idx - 1];
-    copy[idx - 1] = { ...itemcopy, colorId: e.target.value, test: "test" };
+    copy[idx - 1] = {
+      ...itemcopy,
+      colorId: (colorIdList.indexOf(e.target.value) + 1).toString(),
+    };
     updateInfo(copy);
   }
 
@@ -61,8 +86,13 @@ function Class({ text, semester, idx, info, updateInfo }) {
 
   return (
     <div className={`cell ${color}`}>
-      {text}
-      <Select value={color} onChange={handleColorChange} variant="filled">
+      <p>{text}</p>
+      <Select
+        disableUnderline
+        value={color}
+        onChange={handleColorChange}
+        variant="filled"
+      >
         <MenuItem value="Lavender">
           <div
             style={{ backgroundColor: "#7986cb" }}

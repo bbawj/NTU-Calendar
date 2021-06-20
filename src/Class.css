@@ -18,6 +18,19 @@
   padding: 0.5em;
 }
 
+.colorContainers {
+  display: flex;
+}
+
+.colorColumns {
+  display: flex;
+  flex-direction: column;
+}
+
+.MuiList-root {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
 .Lavender {
   background-color: #7986cb;
 }

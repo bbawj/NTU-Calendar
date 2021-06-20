@@ -6,5 +6,9 @@
   width: 100%;
 }
 
+.login > h1 {
+  margin: 1em;
+}
+
 #google-signin {
 }

@@ -13,13 +13,19 @@ function Calendar({ table }) {
   let i = 0;
   return (
     <div>
-      <div className="calendarHeader">
-        <h2>Semester:</h2>
-        <Select value={semester} onChange={(e) => setSemester(e.target.value)}>
-          <MenuItem value={1}>1</MenuItem>
-          <MenuItem value={2}>2</MenuItem>
-        </Select>
-      </div>
+      {classInfo && classInfo.length && (
+        <div className="calendarHeader">
+          <h2>Semester:</h2>
+          <Select
+            value={semester}
+            onChange={(e) => setSemester(e.target.value)}
+          >
+            <MenuItem value={1}>1</MenuItem>
+            <MenuItem value={2}>2</MenuItem>
+          </Select>
+          <SendCalendar info={classInfo} />
+        </div>
+      )}
       <div className="calendar">
         {Object.entries(table).map(([key, value]) => (
           <div className={`col`} key={key}>
@@ -29,6 +35,7 @@ function Calendar({ table }) {
                 i = i + 1;
                 return (
                   <Class
+                    day={key - 1}
                     text={cell}
                     key={idx}
                     semester={semester}
@@ -43,7 +50,6 @@ function Calendar({ table }) {
           </div>
         ))}
       </div>
-      <SendCalendar info={classInfo} />
     </div>
   );
 }

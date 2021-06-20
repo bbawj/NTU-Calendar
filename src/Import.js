@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import { Button } from "@material-ui/core";
 import Calendar from "./Calendar";
+import "./Calendar.css";
 
 function Import() {
   const [table, setTable] = useState({});
@@ -76,7 +79,22 @@ function Import() {
 
   return (
     <div>
-      <input type="file" onChange={handleImport} />
+      <div className="uploadButton">
+        <Button
+          variant="contained"
+          color="default"
+          onClick={() => document.getElementById("importCalendar").click()}
+          startIcon={<CloudUploadIcon />}
+        >
+          Upload
+        </Button>
+      </div>
+      <input
+        id="importCalendar"
+        hidden="hidden"
+        type="file"
+        onChange={handleImport}
+      />
       <Calendar table={table} />
     </div>
   );
