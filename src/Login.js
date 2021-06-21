@@ -9,16 +9,11 @@ export default function Login() {
   const [googleAuth, setGoogleAuth] = useState();
   const { isLoggedIn, setIsLoggedIn, gapi, setGapi } = useAuth();
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [imageUrl, setImageUrl] = useState();
 
   const onSuccess = (googleUser) => {
-    // (Ref. 7)
     setIsLoggedIn(true);
     const profile = googleUser.getBasicProfile();
     setName(profile.getName());
-    setEmail(profile.getEmail());
-    setImageUrl(profile.getImageUrl());
   };
 
   const onFailure = () => {
@@ -26,7 +21,6 @@ export default function Login() {
   };
 
   const logOut = () => {
-    // (Ref. 8)
     (async () => {
       await googleAuth.signOut();
       setIsLoggedIn(false);
@@ -34,7 +28,6 @@ export default function Login() {
     })();
   };
   const renderSigninButton = (_gapi) => {
-    // (Ref. 6)
     _gapi.signin2.render("google-signin", {
       scope: "profile email",
       width: 200,
@@ -49,16 +42,12 @@ export default function Login() {
   useEffect(() => {
     // Window.gapi is available at this point
     window.onGoogleScriptLoad = () => {
-      // (Ref. 1)
-
-      const _gapi = window.gapi; // (Ref. 2)
+      const _gapi = window.gapi;
       setGapi(_gapi);
 
       _gapi.load("client:auth2", () => {
-        // (Ref. 3)
         (async () => {
           await _gapi.client.init({
-            // (Ref. 4)
             apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
             clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
             scope: "https://www.googleapis.com/auth/calendar",
@@ -67,28 +56,21 @@ export default function Login() {
             ],
           });
           const _googleAuth = await _gapi.auth2.getAuthInstance();
-          setGoogleAuth(_googleAuth); // (Ref. 5)
-          renderSigninButton(_gapi); // (Ref. 6)
+          setGoogleAuth(_googleAuth);
+          renderSigninButton(_gapi);
         })();
       });
     };
 
     // Ensure everything is set before loading the script
-    loadGoogleScript(); // (Ref. 9)
+    loadGoogleScript();
   }, []);
 
   return (
     <div className="login">
       <h1>NTU Calendar</h1>
       <div className="loginDisplay">
-        <p>
-          {isLoggedIn &&
-            googleAuth &&
-            `Logged in as ${googleAuth.currentUser
-              .get()
-              .getBasicProfile()
-              .getName()}`}
-        </p>
+        <p>{isLoggedIn && googleAuth && `Logged in as ${name}`}</p>
         {isLoggedIn ? (
           <Button color="secondary" endIcon={<ExitToApp />} onClick={logOut}>
             Logout

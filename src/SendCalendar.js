@@ -17,7 +17,7 @@ export default function SendCalendar({ info }) {
         path: "https://www.googleapis.com/calendar/v3/calendars",
         method: "POST",
         body: {
-          summary: "Test Calendar",
+          summary: "Class Calendar",
           timeZone: "Asia/Singapore",
         },
       });

@@ -13,10 +13,11 @@ function Calendar({ table }) {
   const { isLoggedIn, classInfo, setClassInfo } = useAuth();
   const days = ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
   console.log(classInfo);
+  //track actual index of each object within [classInfo]
   let i = 0;
   return (
     <div>
-      {isLoggedIn && classInfo && classInfo.length && (
+      {isLoggedIn && classInfo && !(classInfo.length === 0) && (
         <div className="calendarHeader">
           <h2>Semester:</h2>
           <Select
@@ -37,11 +38,29 @@ function Calendar({ table }) {
               <h2>{days[key - 1]}</h2>
               {value.map((cell, idx) => {
                 if (cell && cell !== "span") {
+                  // if text contains merged classes return multiple class
+                  if (cell.split(";").length > 2) {
+                    const elArray = [];
+                    for (let x = 0; x < cell.split(";").length - 1; x++) {
+                      i = i + 1;
+                      const currText = cell.split(";")[x];
+                      elArray.push(
+                        <Class
+                          day={key - 1}
+                          text={currText}
+                          key={i}
+                          semester={semester}
+                          idx={i}
+                        />
+                      );
+                    }
+                    return elArray;
+                  }
                   i = i + 1;
                   return (
                     <Class
                       day={key - 1}
-                      text={cell}
+                      text={cell.slice(0, -1)}
                       key={idx}
                       semester={semester}
                       idx={i}

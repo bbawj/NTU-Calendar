@@ -20,35 +20,63 @@ function Class({ day, text, semester, idx }) {
     "Basil",
     "Tomato",
   ];
-  const checkMerge = text.split(";");
-  let date;
-  // semester start dates
+  // const checkMerge = text.split(";");
+  let date, semDate;
+  // semester start date
   if (semester === 1) {
-    const baseDate = new Date(
-      new Date("2021-08-09").getTime() + day * 24 * 60 * 60 * 1000
-    );
-    date = baseDate.toISOString().slice(0, 10);
+    semDate = "2021-08-09";
   } else {
-    const baseDate = new Date(
-      new Date("2022-01-10").getTime() + day * 24 * 60 * 60 * 1000
-    );
-    date = baseDate.toISOString().slice(0, 10);
+    semDate = "2021-01-10";
   }
 
-  const splitText = checkMerge[0].split(" ");
+  const splitText = text.split(" ");
   const classCode = splitText[0];
   const classType = splitText[1];
   const classGrp = splitText[2];
 
-  let time, location;
+  let time, location, recurrence;
   const wksplit = splitText[3].split("Wk");
   // if text contains "Wk" split by Wk; else no splitting needed
   if (wksplit.length > 1) {
     time = wksplit[0].slice(-11, -1);
     location = wksplit[0].slice(0, -11);
+    // get the date and recurrence
+    // Wk2-13
+    if (wksplit[1].split("-").length > 1) {
+      const hyphenSplitted = wksplit[1].split("-");
+      const startWeek = Number(hyphenSplitted[0]);
+      const endWeek = Number(hyphenSplitted[1]);
+      const baseDate = new Date(
+        new Date(semDate).getTime() +
+          day * 24 * 60 * 60 * 1000 +
+          startWeek * 7 * 24 * 60 * 60 * 1000
+      );
+      date = baseDate.toISOString().slice(0, 10);
+      recurrence = [`RRULE:FREQ=WEEKLY;COUNT=${endWeek - startWeek + 1}`];
+    } else {
+      //week intervals Wk2,4,6,8
+      const commaSplitted = wksplit[1].split(",");
+      const startWeek = Number(commaSplitted[0]);
+      const interval = Number(commaSplitted[1]) - startWeek;
+
+      const baseDate = new Date(
+        new Date(semDate).getTime() +
+          day * 24 * 60 * 60 * 1000 +
+          startWeek * 7 * 24 * 60 * 60 * 1000
+      );
+      date = baseDate.toISOString().slice(0, 10);
+      recurrence = [
+        `RRULE:FREQ=WEEKLY;INTERVAL=${interval};COUNT=${commaSplitted.length}`,
+      ];
+    }
   } else {
     time = splitText[3].slice(-10);
     location = splitText[3].slice(0, -10);
+    const baseDate = new Date(
+      new Date(semDate).getTime() + day * 24 * 60 * 60 * 1000
+    );
+    date = baseDate.toISOString().slice(0, 10);
+    recurrence = ["RRULE:FREQ=WEEKLY;COUNT=13"];
   }
   const beginning = time.split("to")[0];
   const end = time.split("to")[1];
@@ -67,7 +95,7 @@ function Class({ day, text, semester, idx }) {
       timeZone: "Asia/Singapore",
     },
     colorId: "1",
-    recurrence: ["RRULE:FREQ=WEEKLY;COUNT=13"],
+    recurrence: recurrence,
   };
 
   function handleColorChange(e) {
@@ -87,7 +115,7 @@ function Class({ day, text, semester, idx }) {
 
   return (
     <div className={`cell ${color}`}>
-      <p>{text.slice(0, -1)}</p>
+      <p>{text}</p>
       <div className="selectContainer">
         <Select
           disableUnderline
