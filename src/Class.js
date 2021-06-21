@@ -3,10 +3,12 @@ import { Select } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import "./Class.css";
 import { useAuth } from "./context/AuthContext";
+import { IconButton } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
 
-function Class({ day, text, semester, idx }) {
+function Class({ day, text, semester, idx, deleteProps }) {
   const [color, setColor] = useState("Lavender");
-  const { classInfo, setClassInfo } = useAuth();
+  const { classInfo, setClassInfo, table, setTable } = useAuth();
   const colorIdList = [
     "Lavender",
     "Sage",
@@ -49,7 +51,7 @@ function Class({ day, text, semester, idx }) {
       const baseDate = new Date(
         new Date(semDate).getTime() +
           day * 24 * 60 * 60 * 1000 +
-          startWeek * 7 * 24 * 60 * 60 * 1000
+          (startWeek - 1) * 7 * 24 * 60 * 60 * 1000
       );
       date = baseDate.toISOString().slice(0, 10);
       recurrence = [`RRULE:FREQ=WEEKLY;COUNT=${endWeek - startWeek + 1}`];
@@ -62,7 +64,7 @@ function Class({ day, text, semester, idx }) {
       const baseDate = new Date(
         new Date(semDate).getTime() +
           day * 24 * 60 * 60 * 1000 +
-          startWeek * 7 * 24 * 60 * 60 * 1000
+          (startWeek - 1) * 7 * 24 * 60 * 60 * 1000
       );
       date = baseDate.toISOString().slice(0, 10);
       recurrence = [

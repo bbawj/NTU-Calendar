@@ -6,8 +6,7 @@ import "./Calendar.css";
 import { useAuth } from "./context/AuthContext";
 
 function Import() {
-  const [table, setTable] = useState({});
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, setTable } = useAuth();
   let spanArr = [];
 
   let grid = {
@@ -99,7 +98,7 @@ function Import() {
         type="file"
         onChange={handleImport}
       />
-      <Calendar table={table} />
+      <Calendar />
     </div>
   );
 }

@@ -12,6 +12,7 @@
 .selectContainer {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 
 .cell .MuiFilledInput-root::before {

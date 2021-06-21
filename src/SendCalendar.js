@@ -3,28 +3,35 @@ import { useAuth } from "./context/AuthContext";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Button } from "@material-ui/core";
+import Snackbar from "@material-ui/core/Snackbar";
 
 export default function SendCalendar({ info }) {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [message, setMessage] = useState("");
+  const [popup, setPopup] = useState(false);
   const { gapi } = useAuth();
+  const seen = new Set();
+  //filter any duplicates before sending
+  const filteredInfo = info.filter((el) => {
+    const duplicate = seen.has(el.summary);
+    seen.add(el.summary);
+    return !duplicate;
+  });
   async function handleConfirm() {
     try {
-      setError(false);
       setLoading(true);
       //create new calendar
       const res = await gapi.client.request({
         path: "https://www.googleapis.com/calendar/v3/calendars",
         method: "POST",
         body: {
-          summary: "Class Calendar",
+          summary: "NTU Calendar",
           timeZone: "Asia/Singapore",
         },
       });
-      console.log(res);
       // create events on new calendar
       const batch = gapi.client.newBatch();
-      info.forEach((event) => {
+      filteredInfo.forEach((event) => {
         const addEvent = gapi.client.request({
           path: `https://www.googleapis.com/calendar/v3/calendars/${res.result.id}/events`,
           method: "POST",
@@ -40,20 +47,32 @@ export default function SendCalendar({ info }) {
         batch.add(addEvent);
       });
       batch.then((res) => {
-        console.log(res);
         setLoading(false);
+        setPopup(true);
+        setMessage("Successfully updated calendar");
       });
     } catch (err) {
       console.error(err);
-      setError(true);
       setLoading(false);
+      setPopup(true);
+      setMessage("Failed to update calendar");
     }
+  }
+
+  function handleClose() {
+    setPopup(false);
   }
   return (
     <div>
       <Backdrop open={loading} style={{ zIndex: 2 }}>
         <CircularProgress color="primary" />
       </Backdrop>
+      <Snackbar
+        onClose={handleClose}
+        open={popup}
+        message={message}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      />
       <Button
         style={{ marginLeft: "1em" }}
         color="primary"
@@ -62,7 +81,6 @@ export default function SendCalendar({ info }) {
       >
         CONFIRM AND SEND
       </Button>
-      {error && <p style={{ color: "red" }}>Failed to update calendar.</p>}
     </div>
   );
 }

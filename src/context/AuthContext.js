@@ -9,6 +9,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [classInfo, setClassInfo] = useState([]);
+  const [table, setTable] = useState({});
   const [gapi, setGapi] = useState();
 
   const value = {
@@ -18,6 +19,8 @@ export function AuthProvider({ children }) {
     setIsLoggedIn,
     gapi,
     setGapi,
+    table,
+    setTable,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
