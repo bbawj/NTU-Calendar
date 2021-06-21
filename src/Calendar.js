@@ -5,8 +5,6 @@ import SendCalendar from "./SendCalendar";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useAuth } from "./context/AuthContext";
-import DemoImage1 from "./img/demo.png";
-import DemoImage2 from "./img/demo3.png";
 
 function Calendar() {
   const [semester, setSemester] = useState(1);
@@ -77,7 +75,10 @@ function Calendar() {
       {classInfo.length === 0 && (
         <div className="demoImage">
           <div>
-            <img src={DemoImage1} alt="demo" />
+            <img
+              src="https://github.com/bbawj/NTU-Calendar/blob/main/src/img/demo.png"
+              alt="demo"
+            />
             <p>
               Grab HTML file of your calendar from{" "}
               <a href="https://wish.wis.ntu.edu.sg/pls/webexe/ldap_login.login?w_url=https://wish.wis.ntu.edu.sg/pls/webexe/aus_stars_planner.main">
@@ -86,7 +87,10 @@ function Calendar() {
             </p>
           </div>
           <div>
-            <img src={DemoImage2} alt="demo" />
+            <img
+              src="https://github.com/bbawj/NTU-Calendar/blob/main/src/img/demo3.png"
+              alt="demo"
+            />
             <p>Upload and sync to Google Calendar!</p>
           </div>
         </div>

@@ -20,33 +20,38 @@ function Import() {
   const handleImport = (event) => {
     const f = event.target.files[0];
     if (f) {
-      const r = new FileReader();
-      r.onload = function (e) {
-        const contents = e.target.result;
-        const parsedDoc = new DOMParser().parseFromString(
-          contents,
-          "text/html"
-        );
-        const tableRows = parsedDoc
-          .querySelector("table table tbody")
-          .querySelectorAll("tr");
-        createSpan(tableRows);
-        spanArr.forEach((item) => {
-          grid[item.split(",")[1]][item.split(",")[0]] = "span";
-        });
-        for (let row = 1; row <= 16; row++) {
-          let index = 1;
-          for (let col = 1; col <= 6; col++) {
-            if (grid[col][row] === "span") continue;
-            if (tableRows[row].cells[index].innerText.trim()) {
-              grid[col][row] = tableRows[row].cells[index].innerText;
+      try {
+        const r = new FileReader();
+        r.onload = function (e) {
+          const contents = e.target.result;
+          const parsedDoc = new DOMParser().parseFromString(
+            contents,
+            "text/html"
+          );
+          const tableRows = parsedDoc
+            .querySelector("table table tbody")
+            .querySelectorAll("tr");
+          createSpan(tableRows);
+          spanArr.forEach((item) => {
+            grid[item.split(",")[1]][item.split(",")[0]] = "span";
+          });
+          for (let row = 1; row <= 16; row++) {
+            let index = 1;
+            for (let col = 1; col <= 6; col++) {
+              if (grid[col][row] === "span") continue;
+              if (tableRows[row].cells[index].innerText.trim()) {
+                grid[col][row] = tableRows[row].cells[index].innerText;
+              }
+              index++;
             }
-            index++;
           }
-        }
-        setTable(grid);
-      };
-      r.readAsText(f);
+          setTable(grid);
+        };
+        r.readAsText(f);
+      } catch (err) {
+        console.error(err);
+        alert("Failed to load file");
+      }
     } else {
       alert("Failed to load file");
     }
