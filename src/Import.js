@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { Button } from "@material-ui/core";
 import Calendar from "./Calendar";
@@ -9,15 +9,15 @@ function Import() {
   const { isLoggedIn, setTable } = useAuth();
   let spanArr = [];
 
-  let grid = {
-    1: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-    2: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-    3: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-    4: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-    5: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-    6: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-  };
   const handleImport = (event) => {
+    let grid = {
+      1: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+      2: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+      3: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+      4: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+      5: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+      6: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    };
     const f = event.target.files[0];
     if (f) {
       try {
@@ -84,7 +84,7 @@ function Import() {
   }
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       {isLoggedIn && (
         <div className="uploadButton">
           <Button

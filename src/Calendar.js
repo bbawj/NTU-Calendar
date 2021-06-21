@@ -5,6 +5,7 @@ import SendCalendar from "./SendCalendar";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useAuth } from "./context/AuthContext";
+import { Link } from "react-router-dom";
 
 function Calendar() {
   const [semester, setSemester] = useState(1);
@@ -32,7 +33,7 @@ function Calendar() {
         <div className="calendar">
           {Object.entries(table).map(([key, value]) => (
             <div className={`col`} key={key}>
-              <h2>{days[key - 1]}</h2>
+              <h2 key={key}>{days[key - 1]}</h2>
               {value.map((cell, idx) => {
                 if (cell && cell !== "span") {
                   // if text contains merged classes return multiple class
@@ -66,13 +67,13 @@ function Calendar() {
                     />
                   );
                 }
-                return <div></div>;
+                return <div key={idx}></div>;
               })}
             </div>
           ))}
         </div>
       )}
-      {classInfo.length === 0 && (
+      {(classInfo.length === 0 || !isLoggedIn) && (
         <div className="demoImage">
           <div>
             <img

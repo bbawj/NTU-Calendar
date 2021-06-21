@@ -9,7 +9,7 @@ export const loadGoogleScript = () => {
 
     // Prevent script from loading twice
     if (document.getElementById(id)) {
-      return;
+      return window.onGoogleScriptLoad();
     } // (Ref. 3)
     const js = document.createElement("script"); // (Ref. 4)
     js.id = id;

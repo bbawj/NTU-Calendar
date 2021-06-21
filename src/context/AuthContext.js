@@ -11,6 +11,7 @@ export function AuthProvider({ children }) {
   const [classInfo, setClassInfo] = useState([]);
   const [table, setTable] = useState({});
   const [gapi, setGapi] = useState();
+  const [googleAuth, setGoogleAuth] = useState();
 
   const value = {
     classInfo,
@@ -21,6 +22,8 @@ export function AuthProvider({ children }) {
     setGapi,
     table,
     setTable,
+    googleAuth,
+    setGoogleAuth,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

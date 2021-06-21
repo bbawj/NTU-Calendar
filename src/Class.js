@@ -3,12 +3,10 @@ import { Select } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import "./Class.css";
 import { useAuth } from "./context/AuthContext";
-import { IconButton } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
 
 function Class({ day, text, semester, idx, deleteProps }) {
   const [color, setColor] = useState("Lavender");
-  const { classInfo, setClassInfo, table, setTable } = useAuth();
+  const { classInfo, setClassInfo } = useAuth();
   const colorIdList = [
     "Lavender",
     "Sage",

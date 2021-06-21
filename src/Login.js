@@ -4,10 +4,17 @@ import { useAuth } from "./context/AuthContext";
 import "./Login.css";
 import { Button } from "@material-ui/core";
 import { ExitToApp } from "@material-ui/icons";
+import Import from "./Import";
 
 export default function Login() {
-  const [googleAuth, setGoogleAuth] = useState();
-  const { isLoggedIn, setIsLoggedIn, gapi, setGapi } = useAuth();
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    gapi,
+    setGapi,
+    googleAuth,
+    setGoogleAuth,
+  } = useAuth();
   const [name, setName] = useState("");
 
   const onSuccess = (googleUser) => {
@@ -79,6 +86,7 @@ export default function Login() {
           <div id="google-signin"></div>
         )}
       </div>
+      <Import />
     </div>
   );
 }
