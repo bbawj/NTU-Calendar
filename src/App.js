@@ -16,7 +16,7 @@ function App() {
             <Route path="/about" component={About} />
 
             <div className="aboutLink">
-              <Link to="/about">About</Link>
+              <Link to="/about">Privacy Policy</Link>
             </div>
           </AuthProvider>
         </Switch>

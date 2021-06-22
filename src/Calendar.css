@@ -14,10 +14,12 @@
 .demoImage > div {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  text-align: center;
 }
-@media (max-width: 600px) {
+
+@media (max-width: 900px) {
   .demoImage {
     flex-direction: column;
   }
@@ -65,11 +67,4 @@ li {
   justify-content: center;
   align-items: center;
   margin-top: 0.5em;
-}
-
-.aboutLink {
-  display: flex;
-  padding: 1em;
-  align-items: center;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
 }

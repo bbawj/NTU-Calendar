@@ -6,7 +6,7 @@ function About() {
     <div className="aboutPage">
       <h1>Privacy Policy</h1>
       <br />
-      <p>Last updated: June 21, 2021</p>
+      <p>Last updated: June 23, 2021</p>
       <br />
       <p>
         This Privacy Policy describes Our policies and procedures on the
@@ -18,12 +18,16 @@ function About() {
       <p>
         We use Your Personal data to provide and improve the Service. By using
         the Service, You agree to the collection and use of information in
-        accordance with this Privacy Policy. This Privacy Policy has been
-        created with the help of the{" "}
-        <a href="https://www.freeprivacypolicy.com/free-privacy-policy-generator/">
-          Privacy Policy Generator
-        </a>
-        .
+        accordance with this Privacy Policy.{" "}
+      </p>
+      <br />
+      <p>
+        <strong>
+          {" "}
+          NTU Calendar's use of information received from Google APIs will
+          adhere to the Google API Services User Data Policy, including the
+          Limited Use requirements.
+        </strong>
       </p>
       <br />
       <h1>Collecting and Using Your Personal Data</h1>
@@ -36,68 +40,27 @@ function About() {
 
       <p>
         While using Our Service, We may ask You to provide Us with certain
-        personally identifiable information that can be used to contact or
-        identify You. Personally identifiable information may include, but is
-        not limited to:
-      </p>
-      <ul>
-        <li>
-          <p>Email address</p>
-        </li>
-        <li>
-          <p>First name and last name</p>
-        </li>
-        <li>
-          <p>Usage Data</p>
-        </li>
-      </ul>
-      <h3>Usage Data</h3>
-      <br />
-      <p>Usage Data is collected automatically when using the Service.</p>
-      <br />
-      <p>
-        Usage Data may include information such as Your Device's Internet
-        Protocol address (e.g. IP address), browser type, browser version, the
-        pages of our Service that You visit, the time and date of Your visit,
-        the time spent on those pages, unique device identifiers and other
-        diagnostic data.
-      </p>
-      <br />
-      <p>
-        When You access the Service by or through a mobile device, We may
-        collect certain information automatically, including, but not limited
-        to, the type of mobile device You use, Your mobile device unique ID, the
-        IP address of Your mobile device, Your mobile operating system, the type
-        of mobile Internet browser You use, unique device identifiers and other
-        diagnostic data.
-      </p>
-      <br />
-      <p>
-        We may also collect information that Your browser sends whenever You
-        visit our Service or when You access the Service by or through a mobile
-        device.
+        personally identifiable information that can be used to identify You.
+        Personally identifiable information: Email, First Name, Last Name.
       </p>
       <br />
       <h2>Use of Your Personal Data</h2>
       <br />
       <p>We may use Personal Data for the following purposes:</p>
-      <ul>
-        <li>
-          <p>
-            <strong>To provide and maintain our Service</strong>, including to
-            monitor the usage of our Service.
-          </p>
-        </li>
-        <li>
-          <p>
-            <strong>To manage Your Account:</strong> to manage Your registration
-            as a user of the Service. The Personal Data You provide can give You
-            access to different functionalities of the Service that are
-            available to You as a registered user.
-          </p>
-        </li>
-      </ul>
-
+      <br />
+      <p>
+        <strong>To provide and maintain our Service</strong>, including to
+        monitor the usage of our Service.
+      </p>
+      <br />
+      <p>
+        <strong>
+          Your user data is not stored or shared. Your user data is used to
+          render components within the platform and to allow the use of the
+          Google Calendar API.
+        </strong>{" "}
+      </p>
+      <br />
       <h2>Security of Your Personal Data</h2>
       <br />
       <p>
@@ -160,11 +123,9 @@ function About() {
       <h2>Contact Us</h2>
       <br />
       <p>
-        If you have any questions about this Privacy Policy, You can contact us:
+        If you have any questions about this Privacy Policy, You can contact us
+        at brendanawjang@gmail.com
       </p>
-      <ul>
-        <li>By email: brendanawjang@gmail.com</li>
-      </ul>
     </div>
   );
 }

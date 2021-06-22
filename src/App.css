@@ -11,3 +11,19 @@
   font-size: 1rem;
   list-style-type: circle;
 }
+
+.App {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.aboutLink {
+  display: flex;
+  padding: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
+  align-items: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  margin-top: auto;
+}

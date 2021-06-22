@@ -96,7 +96,7 @@ function Calendar() {
               src="https://github.com/bbawj/NTU-Calendar/raw/main/src/img/demo3.png"
               alt="demo"
             />
-            <p>Upload and sync to Google Calendar!</p>
+            <p>Upload to generate class schedule on your Google Calendar!</p>
           </div>
         </div>
       )}

@@ -60,6 +60,7 @@ function Import() {
     }
   };
   function createSpan(tableRows) {
+    const spanGroups = [];
     [...tableRows].forEach((row, idx) => {
       if (idx === 0) return null;
       const rowNumber = idx;
@@ -68,23 +69,38 @@ function Import() {
         if (idx === 0) return;
         const span = cell.getAttribute("rowspan");
         if (span && span - 1) {
-          // for each cell with span,
+          // for each cell with span, compute offset for column as TD for span not rendered
           let colCorrection = 0; // store the number of cols to correct by for the cell with span
+          const grp = []; // store group of spans together
+
           for (let i = 1; i < span; i++) {
             const spanPos = `${rowNumber + i},${idx}`;
-            //check through existing spans
-            for (let idx = 0; idx < spanArr.length; idx++) {
+            //check through existing span groups
+            for (let idx = 0; idx < spanGroups.length; idx++) {
+              let add = 0; // BOOLEAN to determine colCorrection; should only +1 max for each span group
               if (
-                // see if prev span on same row, && <= column && must be the first span cell to add offset due to no cell index for spans
-                spanArr[idx].split(",")[0] === spanPos.split(",")[0] &&
-                spanArr[idx].split(",")[1] <= spanPos.split(",")[1] &&
-                i === 1
+                spanGroups[idx][0].split(",")[0] !== spanPos.split(",")[0] && // current span cannot be same as the first span in existing groups: classes are side by side no offset needed
+                i === 1 // calculate offset on the first span instance
               ) {
+                // go through each spanGroup element
+                for (let x = 0; x < spanGroups[idx].length; x++) {
+                  if (
+                    spanGroups[idx][x].split(",")[0] ===
+                      spanPos.split(",")[0] && // offset only if same row as existing spans
+                    spanGroups[idx][x].split(",")[1] <= spanPos.split(",")[1] // and existing spans are located before the current one
+                  ) {
+                    add = 1;
+                  }
+                }
+              }
+              if (add) {
                 colCorrection = colCorrection + 1;
               }
             }
+            grp.push(`${rowNumber + i},${idx + colCorrection}`);
             spanArr.push(`${rowNumber + i},${idx + colCorrection}`);
           }
+          spanGroups.push(grp);
         }
       });
     });
