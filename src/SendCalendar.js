@@ -10,14 +10,15 @@ export default function SendCalendar({ info }) {
   const [message, setMessage] = useState("");
   const [popup, setPopup] = useState(false);
   const { gapi } = useAuth();
-  const seen = new Set();
-  //filter any duplicates before sending
-  const filteredInfo = info.filter((el) => {
-    const duplicate = seen.has(el.summary);
-    seen.add(el.summary);
-    return !duplicate;
-  });
+
   async function handleConfirm() {
+    const seen = new Set();
+    //filter any duplicates before sending
+    const filteredInfo = info.filter((el) => {
+      const duplicate = seen.has(el.summary);
+      seen.add(el.summary);
+      return !duplicate;
+    });
     try {
       setLoading(true);
       //create new calendar

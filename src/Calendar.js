@@ -5,12 +5,12 @@ import SendCalendar from "./SendCalendar";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useAuth } from "./context/AuthContext";
-import { Link } from "react-router-dom";
 
 function Calendar() {
   const [semester, setSemester] = useState(1);
   const { isLoggedIn, classInfo, table } = useAuth();
   const days = ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
+  console.log(classInfo);
   //track actual index of each object within [classInfo]
   let i = 0;
   return (

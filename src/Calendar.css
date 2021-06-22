@@ -36,6 +36,7 @@ li {
 .calendar {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: minmax(25px, auto);
   grid-gap: 1em;
   padding: 1em;
 }
@@ -44,7 +45,9 @@ li {
   display: flex;
   flex-direction: column;
   height: 600px;
-  justify-content: space-between;
+}
+.col > div {
+  margin-top: 1em;
 }
 
 .calendarHeader {
