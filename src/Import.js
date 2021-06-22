@@ -41,7 +41,9 @@ function Import() {
             for (let col = 1; col <= 6; col++) {
               if (grid[col][row] === "span") continue;
               if (tableRows[row].cells[index].innerText.trim()) {
-                grid[col][row] = tableRows[row].cells[index].innerText;
+                grid[col][row] = tableRows[row].cells[index].innerText
+                  .trim()
+                  .replace(/\u21b5/g, "");
               }
               index++;
             }
