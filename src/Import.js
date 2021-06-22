@@ -66,13 +66,17 @@ function Import() {
         if (idx === 0) return;
         const span = cell.getAttribute("rowspan");
         if (span && span - 1) {
-          let colCorrection = 0;
+          // for each cell with span,
+          let colCorrection = 0; // store the number of cols to correct by for the cell with span
           for (let i = 1; i < span; i++) {
             const spanPos = `${rowNumber + i},${idx}`;
+            //check through existing spans
             for (let idx = 0; idx < spanArr.length; idx++) {
               if (
+                // see if prev span on same row, && <= column && must be the first span cell to add offset due to no cell index for spans
                 spanArr[idx].split(",")[0] === spanPos.split(",")[0] &&
-                spanArr[idx].split(",")[1] <= spanPos.split(",")[1]
+                spanArr[idx].split(",")[1] <= spanPos.split(",")[1] &&
+                i === 1
               ) {
                 colCorrection = colCorrection + 1;
               }
