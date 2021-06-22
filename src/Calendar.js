@@ -82,7 +82,11 @@ function Calendar() {
             />
             <p>
               Grab HTML file of your calendar from{" "}
-              <a href="https://wish.wis.ntu.edu.sg/pls/webexe/ldap_login.login?w_url=https://wish.wis.ntu.edu.sg/pls/webexe/aus_stars_planner.main">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://wish.wis.ntu.edu.sg/pls/webexe/ldap_login.login?w_url=https://wish.wis.ntu.edu.sg/pls/webexe/aus_stars_planner.main"
+              >
                 STARS
               </a>
             </p>

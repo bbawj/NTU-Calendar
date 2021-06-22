@@ -32,6 +32,7 @@ function Import() {
             .querySelector("table table tbody")
             .querySelectorAll("tr");
           createSpan(tableRows);
+          console.log(spanArr);
           spanArr.forEach((item) => {
             grid[item.split(",")[1]][item.split(",")[0]] = "span";
           });
