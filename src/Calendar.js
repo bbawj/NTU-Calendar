@@ -10,9 +10,9 @@ function Calendar() {
   const [semester, setSemester] = useState(1);
   const { isLoggedIn, table } = useAuth();
   const days = ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
-  const [ classInfo, setClassInfo ] = useState([])
-  console.log(classInfo);
-  console.log(table);
+  const [classInfo, setClassInfo] = useState([]);
+  // console.log(classInfo);
+  // console.log(table);
   //track actual index of each object within [classInfo]
   let i = 0;
   return (
@@ -66,8 +66,8 @@ function Calendar() {
                       key={idx}
                       semester={semester}
                       idx={i}
-                          classInfo={classInfo}
-                          setClassInfo={setClassInfo}
+                      classInfo={classInfo}
+                      setClassInfo={setClassInfo}
                     />
                   );
                 }
@@ -85,7 +85,7 @@ function Calendar() {
               alt="demo"
             />
             <p>
-              Grab HTML file of your calendar from{" "}
+              Grab HTML file of your timetable from{" "}
               <a
                 target="_blank"
                 rel="noopener noreferrer"

@@ -17,6 +17,15 @@ function App() {
 
             <div className="aboutLink">
               <Link to="/about">Privacy Policy</Link>
+              <p>
+                <a
+                  href="https://github.com/bbawj/NTU-Calendar/issues"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Report an issue
+                </a>
+              </p>
             </div>
           </AuthProvider>
         </Switch>
