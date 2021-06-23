@@ -2,11 +2,9 @@ import { MenuItem } from "@material-ui/core";
 import { Select } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import "./Class.css";
-import { useAuth } from "./context/AuthContext";
 
-function Class({ day, text, semester, idx, deleteProps }) {
+function Class({ day, text, semester, idx, classInfo, setClassInfo }) {
   const [color, setColor] = useState("Lavender");
-  const { classInfo, setClassInfo } = useAuth();
   const colorIdList = [
     "Lavender",
     "Sage",
@@ -20,83 +18,86 @@ function Class({ day, text, semester, idx, deleteProps }) {
     "Basil",
     "Tomato",
   ];
-  // const checkMerge = text.split(";");
-  let date, semDate;
-  // semester start date
-  if (semester === 1) {
-    semDate = "2021-08-09";
-  } else {
-    semDate = "2021-01-10";
-  }
-
-  const splitText = text.split(" ");
-  const classCode = splitText[0];
-  const classType = splitText[1];
-  const classGrp = splitText[2];
-
-  let time, location, recurrence;
-  const wksplit = splitText[3].split("Wk");
-  // if text contains "Wk" split by Wk; else no splitting needed
-  if (wksplit.length > 1) {
-    time = wksplit[0].slice(-11, -1);
-    location = wksplit[0].slice(0, -11);
-    // get the date and recurrence
-    // Wk2-13
-    if (wksplit[1].split("-").length > 1) {
-      const hyphenSplitted = wksplit[1].split("-");
-      const startWeek = Number(hyphenSplitted[0]);
-      const endWeek = Number(hyphenSplitted[1]);
-      const baseDate = new Date(
-        new Date(semDate).getTime() +
-          day * 24 * 60 * 60 * 1000 +
-          (startWeek - 1) * 7 * 24 * 60 * 60 * 1000
-      );
-      date = baseDate.toISOString().slice(0, 10);
-      recurrence = [`RRULE:FREQ=WEEKLY;COUNT=${endWeek - startWeek + 1}`];
+  function computeData (day,text,semester){
+    let date, semDate;
+    // semester start date
+    if (semester === 1) {
+      semDate = "2021-08-09";
     } else {
-      //week intervals Wk2,4,6,8
-      const commaSplitted = wksplit[1].split(",");
-      const startWeek = Number(commaSplitted[0]);
-      const interval = Number(commaSplitted[1]) - startWeek;
+      semDate = "2021-01-10";
+    }
 
+    const splitText = text.split(" ");
+    const classCode = splitText[0];
+    const classType = splitText[1];
+    const classGrp = splitText[2];
+
+    let time, location, recurrence;
+    const wksplit = splitText[splitText.length -1].split("Wk");
+    // if text contains "Wk" split by Wk; else no splitting needed
+    if (wksplit.length > 1) {
+      time = wksplit[0].slice(-11, -1);
+      location = wksplit[0].slice(0, -11);
+      // get the date and recurrence
+      // Wk2-13
+      if (wksplit[1].split("-").length > 1) {
+        const hyphenSplitted = wksplit[1].split("-");
+        const startWeek = Number(hyphenSplitted[0]);
+        const endWeek = Number(hyphenSplitted[1]);
+        const baseDate = new Date(
+          new Date(semDate).getTime() +
+            day * 24 * 60 * 60 * 1000 +
+            (startWeek - 1) * 7 * 24 * 60 * 60 * 1000
+        );
+        date = baseDate.toISOString().slice(0, 10);
+        recurrence = [`RRULE:FREQ=WEEKLY;COUNT=${endWeek - startWeek + 1}`];
+      } else {
+        //week intervals Wk2,4,6,8
+        const commaSplitted = wksplit[1].split(",");
+        const startWeek = Number(commaSplitted[0]);
+        const interval = Number(commaSplitted[1]) - startWeek;
+
+        const baseDate = new Date(
+          new Date(semDate).getTime() +
+            day * 24 * 60 * 60 * 1000 +
+            (startWeek - 1) * 7 * 24 * 60 * 60 * 1000
+        );
+        date = baseDate.toISOString().slice(0, 10);
+        recurrence = [
+          `RRULE:FREQ=WEEKLY;INTERVAL=${interval};COUNT=${commaSplitted.length}`,
+        ];
+      }
+    } else {
+      time = splitText[splitText.length -1].slice(-10);
+      location = splitText[splitText.length -1].slice(0, -10);
       const baseDate = new Date(
-        new Date(semDate).getTime() +
-          day * 24 * 60 * 60 * 1000 +
-          (startWeek - 1) * 7 * 24 * 60 * 60 * 1000
+        new Date(semDate).getTime() + day * 24 * 60 * 60 * 1000
       );
       date = baseDate.toISOString().slice(0, 10);
-      recurrence = [
-        `RRULE:FREQ=WEEKLY;INTERVAL=${interval};COUNT=${commaSplitted.length}`,
-      ];
+      recurrence = ["RRULE:FREQ=WEEKLY;COUNT=13"];
     }
-  } else {
-    time = splitText[3].slice(-10);
-    location = splitText[3].slice(0, -10);
-    const baseDate = new Date(
-      new Date(semDate).getTime() + day * 24 * 60 * 60 * 1000
-    );
-    date = baseDate.toISOString().slice(0, 10);
-    recurrence = ["RRULE:FREQ=WEEKLY;COUNT=13"];
-  }
-  const beginning = time.split("to")[0];
-  const end = time.split("to")[1];
-  const startTime = `${date}T${beginning.slice(0, 2)}:${beginning.slice(2)}:00`;
-  const endTime = `${date}T${end.slice(0, 2)}:${end.slice(2)}:00`;
+    const beginning = time.split("to")[0];
+    const end = time.split("to")[1];
+    const startTime = `${date}T${beginning.slice(0, 2)}:${beginning.slice(2)}:00`;
+    const endTime = `${date}T${end.slice(0, 2)}:${end.slice(2)}:00`;
 
-  const data = {
-    summary: `${classCode} ${classType} ${classGrp}`,
-    location: location,
-    start: {
-      dateTime: startTime,
-      timeZone: "Asia/Singapore",
-    },
-    end: {
-      dateTime: endTime,
-      timeZone: "Asia/Singapore",
-    },
-    colorId: "1",
-    recurrence: recurrence,
-  };
+    const data = {
+      summary: `${classCode} ${classType} ${classGrp}`,
+      location: location,
+      start: {
+        dateTime: startTime,
+        timeZone: "Asia/Singapore",
+      },
+      end: {
+        dateTime: endTime,
+        timeZone: "Asia/Singapore",
+      },
+      colorId: "1",
+      recurrence: recurrence,
+    };
+    return data;
+  }
+
 
   function handleColorChange(e) {
     setColor(e.target.value);
@@ -110,8 +111,12 @@ function Class({ day, text, semester, idx, deleteProps }) {
   }
 
   useEffect(() => {
-    setClassInfo((prev) => [...prev, data]);
-  }, []);
+    const computed = computeData(day,text,semester)
+    setClassInfo((prev) => [...prev, computed]);
+    return () => {
+      setClassInfo([])
+    }
+  }, [text]);
 
   return (
     <div className={`cell ${color}`}>

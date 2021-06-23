@@ -15,8 +15,9 @@ export default function SendCalendar({ info }) {
     const seen = new Set();
     //filter any duplicates before sending
     const filteredInfo = info.filter((el) => {
-      const duplicate = seen.has(el.summary);
-      seen.add(el.summary);
+      const stringified = JSON.stringify(el)
+      const duplicate = seen.has(stringified);
+      seen.add(stringified);
       return !duplicate;
     });
     try {

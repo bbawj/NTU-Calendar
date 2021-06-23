@@ -46,7 +46,6 @@ li {
 .col {
   display: flex;
   flex-direction: column;
-  height: 600px;
 }
 .col > div {
   margin-top: 1em;

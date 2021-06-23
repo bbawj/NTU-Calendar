@@ -8,9 +8,11 @@ import { useAuth } from "./context/AuthContext";
 
 function Calendar() {
   const [semester, setSemester] = useState(1);
-  const { isLoggedIn, classInfo, table } = useAuth();
+  const { isLoggedIn, table } = useAuth();
   const days = ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
+  const [ classInfo, setClassInfo ] = useState([])
   console.log(classInfo);
+  console.log(table);
   //track actual index of each object within [classInfo]
   let i = 0;
   return (
@@ -49,7 +51,8 @@ function Calendar() {
                           key={i}
                           semester={semester}
                           idx={i}
-                          deleteProps={{ key: key, idx: idx }}
+                          classInfo={classInfo}
+                          setClassInfo={setClassInfo}
                         />
                       );
                     }
@@ -63,7 +66,8 @@ function Calendar() {
                       key={idx}
                       semester={semester}
                       idx={i}
-                      deleteProps={{ key: key, idx: idx }}
+                          classInfo={classInfo}
+                          setClassInfo={setClassInfo}
                     />
                   );
                 }

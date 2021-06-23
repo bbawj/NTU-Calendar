@@ -8,14 +8,11 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [classInfo, setClassInfo] = useState([]);
   const [table, setTable] = useState({});
   const [gapi, setGapi] = useState();
   const [googleAuth, setGoogleAuth] = useState();
 
   const value = {
-    classInfo,
-    setClassInfo,
     isLoggedIn,
     setIsLoggedIn,
     gapi,

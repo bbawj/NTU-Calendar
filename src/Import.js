@@ -8,9 +8,9 @@ import { useAuth } from "./context/AuthContext";
 function Import() {
   const { isLoggedIn, setTable } = useAuth();
   let spanArr = [];
-
+  let grid, rowVar;
   const handleImport = (event) => {
-    let grid = {
+    let grid16 = {
       1: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
       2: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
       3: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
@@ -18,11 +18,19 @@ function Import() {
       5: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
       6: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
     };
+    let grid32 = {
+      1: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+      2: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+      3: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+      4: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+      5: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+      6: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    };
     const f = event.target.files[0];
     if (f) {
-      try {
         const r = new FileReader();
         r.onload = function (e) {
+          try{
           const contents = e.target.result;
           const parsedDoc = new DOMParser().parseFromString(
             contents,
@@ -31,12 +39,19 @@ function Import() {
           const tableRows = parsedDoc
             .querySelector("table table tbody")
             .querySelectorAll("tr");
+          if (tableRows.length === 17){
+            grid = grid16
+            rowVar = 16
+          } else{
+            grid = grid32
+            rowVar = 31
+          }
           createSpan(tableRows);
-          console.log(spanArr);
+          // console.log(spanArr);
           spanArr.forEach((item) => {
             grid[item.split(",")[1]][item.split(",")[0]] = "span";
           });
-          for (let row = 1; row <= 16; row++) {
+          for (let row = 1; row <= rowVar; row++) {
             let index = 1;
             for (let col = 1; col <= 6; col++) {
               if (grid[col][row] === "span") continue;
@@ -49,17 +64,18 @@ function Import() {
             }
           }
           setTable(grid);
+          }catch(err){
+            console.error(err)
+            alert("Failed to load file")
+          }
         };
         r.readAsText(f);
-      } catch (err) {
-        console.error(err);
-        alert("Failed to load file");
-      }
     } else {
-      alert("Failed to load file");
+      alert("No file found");
     }
   };
   function createSpan(tableRows) {
+    try{
     const spanGroups = [];
     [...tableRows].forEach((row, idx) => {
       if (idx === 0) return null;
@@ -104,7 +120,13 @@ function Import() {
         }
       });
     });
+
+    }catch(err){
+      console.error(err)
+        alert("Failed to load file")
+    }
   }
+  
 
   return (
     <div style={{ width: "100%" }}>
