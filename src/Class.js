@@ -131,6 +131,7 @@ function Class({ day, text, semester, idx, classInfo, setClassInfo }) {
     )}:${beginning.slice(2)}:00`;
     const recessEndTime = `${recessDate}T${end.slice(0, 2)}:${end.slice(2)}:00`;
 
+    //return the correct data determined by type of recess weej exception
     let data = [];
 
     if (exception === "range" || exception === "every") {
@@ -237,7 +238,6 @@ function Class({ day, text, semester, idx, classInfo, setClassInfo }) {
 
   return (
     <div className={`cell ${color}`}>
-      {console.log(classInfo)}
       <p>{text}</p>
       <div className="selectContainer">
         <Select
