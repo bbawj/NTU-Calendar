@@ -18,6 +18,16 @@
   justify-content: center;
   text-align: center;
 }
+.instructions ol {
+  list-style-type: decimal;
+}
+.instructions {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  padding: 2em;
+}
 
 @media (max-width: 900px) {
   .demoImage {
@@ -27,12 +37,6 @@
     width: 100%;
     padding: 1em 2em;
   }
-}
-
-li {
-  list-style: none;
-  padding: 1em;
-  font-size: 2rem;
 }
 
 .calendar {

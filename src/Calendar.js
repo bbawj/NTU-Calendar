@@ -78,29 +78,43 @@ function Calendar() {
         </div>
       )}
       {(classInfo.length === 0 || !isLoggedIn) && (
-        <div className="demoImage">
-          <div>
-            <img
-              src="https://github.com/bbawj/NTU-Calendar/raw/main/src/img/demo.png"
-              alt="demo"
-            />
-            <p>
-              Grab HTML file of your timetable from{" "}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://wish.wis.ntu.edu.sg/pls/webexe/ldap_login.login?w_url=https://wish.wis.ntu.edu.sg/pls/webexe/aus_stars_planner.main"
-              >
-                STARS
-              </a>
-            </p>
+        <div>
+          <div className="demoImage">
+            <div>
+              <img
+                src="https://github.com/bbawj/NTU-Calendar/raw/main/src/img/demo.png"
+                alt="demo"
+              />
+              <p>
+                Grab HTML file of your timetable from{" "}
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://wish.wis.ntu.edu.sg/pls/webexe/ldap_login.login?w_url=https://wish.wis.ntu.edu.sg/pls/webexe/aus_stars_planner.main"
+                >
+                  STARS
+                </a>
+              </p>
+            </div>
+            <div>
+              <img
+                src="https://github.com/bbawj/NTU-Calendar/raw/main/src/img/demo3.png"
+                alt="demo"
+              />
+              <p>Upload to generate class schedule on your Google Calendar!</p>
+            </div>
           </div>
-          <div>
-            <img
-              src="https://github.com/bbawj/NTU-Calendar/raw/main/src/img/demo3.png"
-              alt="demo"
-            />
-            <p>Upload to generate class schedule on your Google Calendar!</p>
+          <div className="instructions">
+            <h3>How to use</h3>
+            <ol type="1">
+              <li>
+                Login with your Google account to give access to your calendar
+              </li>
+              <li>Go to STARS and click on "Printable Page"</li>
+              <li>Right click and click "Save As" webpage or page source</li>
+              <li>Click upload and select your file</li>
+              <li>Choose your semester, update event colors and click send!</li>
+            </ol>
           </div>
         </div>
       )}
