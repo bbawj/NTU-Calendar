@@ -3,7 +3,7 @@ import { Select } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import "./Class.css";
 
-function Class({ day, text, semester, idx, classInfo, setClassInfo }) {
+function Class({ day, text, semester, classInfo, setClassInfo }) {
   const [color, setColor] = useState("Lavender");
   const [summary, setSummary] = useState("");
   const colorIdList = [
@@ -21,12 +21,14 @@ function Class({ day, text, semester, idx, classInfo, setClassInfo }) {
   ];
   function computeData(day, text, semester, color) {
     let date, semDate;
-    // semester start date
-    const year = new Date().getFullYear();
+    // semester start dates for AY21 S2 and AY22 S1
+    // manual update for now
+    let sem1 = "2022-08-08";
+    let sem2 = "2022-01-10";
     if (semester === 1) {
-      semDate = `${year}-08-09`;
+      semDate = sem1;
     } else {
-      semDate = `${year + 1}-01-10`;
+      semDate = sem2;
     }
 
     const splitText = text.split(" ");
