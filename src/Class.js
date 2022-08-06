@@ -3,7 +3,7 @@ import { Select } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import "./Class.css";
 
-function Class({ day, text, semester, classInfo, setClassInfo }) {
+function Class({ day, text, semDate, classInfo, setClassInfo }) {
   const [color, setColor] = useState("Lavender");
   const [summary, setSummary] = useState("");
   const colorIdList = [
@@ -20,16 +20,7 @@ function Class({ day, text, semester, classInfo, setClassInfo }) {
     "Tomato",
   ];
   function computeData(day, text, semester, color) {
-    let date, semDate;
-    // semester start dates for AY21 S2 and AY22 S1
-    // manual update for now
-    let sem1 = "2022-08-08";
-    let sem2 = "2022-01-10";
-    if (semester === 1) {
-      semDate = sem1;
-    } else {
-      semDate = sem2;
-    }
+    let date;
 
     const splitText = text.split(" ");
     const classCode = splitText[0];
@@ -85,12 +76,12 @@ function Class({ day, text, semester, classInfo, setClassInfo }) {
 
         if (flag !== -1) {
           postRecessWeek = commaSplitted.slice(flag);
-          baseDate = new Date(
+          const postRecessBaseDate = new Date(
             new Date(semDate).getTime() +
               day * 24 * 60 * 60 * 1000 +
               postRecessWeek[0] * 7 * 24 * 60 * 60 * 1000
           );
-          recessDate = baseDate.toISOString().slice(0, 10);
+          recessDate = postRecessBaseDate.toISOString().slice(0, 10);
           recessRecurrence = [
             `RRULE:FREQ=WEEKLY;INTERVAL=${interval};COUNT=${postRecessWeek.length}`,
           ];
@@ -231,12 +222,12 @@ function Class({ day, text, semester, classInfo, setClassInfo }) {
   }
 
   useEffect(() => {
-    const computed = computeData(day, text, semester, color);
+    const computed = computeData(day, text, semDate, color);
     setClassInfo((prev) => [...prev, ...computed]);
     return () => {
       setClassInfo([]);
     };
-  }, [text, day, semester]);
+  }, [text, day, semDate]);
 
   return (
     <div className={`cell ${color}`}>

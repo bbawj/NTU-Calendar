@@ -2,31 +2,34 @@ import React, { useState } from "react";
 import "./Calendar.css";
 import Class from "./Class";
 import SendCalendar from "./SendCalendar";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import { useAuth } from "./context/AuthContext";
+import { DatePicker } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import { format } from "date-fns";
 
 function Calendar() {
-  const [semester, setSemester] = useState(1);
   const { isLoggedIn, table } = useAuth();
   const days = ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
   const [classInfo, setClassInfo] = useState([]);
-  // console.log(classInfo);
-  // console.log(table);
+  const [semesterDate, setSemesterDate] = useState(new Date());
   //track actual index of each object within [classInfo]
   let i = 0;
   return (
     <div>
       {isLoggedIn && classInfo && !(classInfo.length === 0) && (
         <div className="calendarHeader">
-          <h2>Semester:</h2>
-          <Select
+          <h2>Semester start date:</h2>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <DatePicker value={semesterDate} onChange={setSemesterDate} />
+          </MuiPickersUtilsProvider>
+          {/* <Select
             value={semester}
             onChange={(e) => setSemester(e.target.value)}
           >
             <MenuItem value={1}>1</MenuItem>
             <MenuItem value={2}>2</MenuItem>
-          </Select>
+          </Select> */}
           <SendCalendar info={classInfo} />
         </div>
       )}
@@ -49,7 +52,7 @@ function Calendar() {
                           day={key - 1}
                           text={currText}
                           key={i}
-                          semester={semester}
+                          semDate={format(semesterDate, "yyyy-MM-dd")}
                           idx={i}
                           classInfo={classInfo}
                           setClassInfo={setClassInfo}
@@ -64,7 +67,7 @@ function Calendar() {
                       day={key - 1}
                       text={cell.slice(0, -1)}
                       key={idx}
-                      semester={semester}
+                      semDate={format(semesterDate, "yyyy-MM-dd")}
                       idx={i}
                       classInfo={classInfo}
                       setClassInfo={setClassInfo}
