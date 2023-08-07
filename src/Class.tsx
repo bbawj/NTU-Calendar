@@ -3,7 +3,22 @@ import { Select } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import "./Class.css";
 
-function Class({ day, text, semDate, classInfo, setClassInfo }) {
+interface Data {
+  summary: string
+  location: string
+  start: {
+    dateTime: string
+    timeZone: string
+  }
+  end: {
+    dateTime: string
+    timeZone: string
+  }
+  colorId: string
+  recurrence: string[] | undefined
+}
+
+function Class({day, text, semDate, classInfo, setClassInfo}: { day: number, text: string, semDate: string, classInfo: Data[], setClassInfo: any }) {
   const [color, setColor] = useState("Lavender");
   const [summary, setSummary] = useState("");
   const colorIdList = [
@@ -19,18 +34,22 @@ function Class({ day, text, semDate, classInfo, setClassInfo }) {
     "Basil",
     "Tomato",
   ];
-  function computeData(day, text, semester, color) {
+
+  function computeData(day: number, text: string, semester: any, color: any): Data[] {
     let date;
 
     const splitText = text.split(" ");
     const classCode = splitText[0];
     const classType = splitText[1];
     const classGrp = splitText[2];
+    console.log(text)
     setSummary(`${classCode} ${classType} ${classGrp}`);
 
-    let time,
-      location,
-      recurrence,
+    let data: Data[] = [];
+
+    let time: string,
+      location: string,
+      recurrence: string[] = [],
       exception,
       baseDate,
       recessDate,
@@ -40,27 +59,29 @@ function Class({ day, text, semDate, classInfo, setClassInfo }) {
     if (wksplit.length > 1) {
       time = wksplit[0].slice(-11, -1);
       location = wksplit[0].slice(0, -11);
+      const weeks = wksplit[1]
       // get the date and recurrence
-      // Wk2-13
-      if (wksplit[1].split("-").length > 1) {
-        const hyphenSplitted = wksplit[1].split("-");
-        const startWeek = Number(hyphenSplitted[0]);
-        let endWeek = Number(hyphenSplitted[1]);
-        //ignore recess week and hence +1 to endWeek
-        if (endWeek > 7) {
-          endWeek++;
-          exception = "range";
-        }
-        baseDate = new Date(
-          new Date(semDate).getTime() +
-            day * 24 * 60 * 60 * 1000 +
-            (startWeek - 1) * 7 * 24 * 60 * 60 * 1000
-        );
-        date = baseDate.toISOString().slice(0, 10);
-        recurrence = [`RRULE:FREQ=WEEKLY;COUNT=${endWeek - startWeek + 1}`];
-      } else {
+      if (weeks.includes(",")) {
         //week intervals Wk2,4,6,8
-        const commaSplitted = wksplit[1].split(",");
+        let commaSplitted = wksplit[1].split(",");
+        let hyphenSplitted: string[] = []
+        for (let i = commaSplitted.length - 1; i >= 0; i--) {
+          const split = commaSplitted[i]
+          if (split.includes("-")) {
+             hyphenSplitted = hyphenSplitted.concat(commaSplitted.splice(i, 1))
+          }
+        }
+
+        console.log(hyphenSplitted)
+        for (const split of hyphenSplitted) {
+          console.log(split)
+          let temp = [...splitText]
+          let time = temp[temp.length - 1].split("Wk")[0];
+          temp[temp.length - 1] = `${time}Wk${split}`
+          const s = temp.join(" ")
+          data = data.concat(computeData(day, s, semester, color))
+        }
+
         const startWeek = Number(commaSplitted[0]);
         const interval = Number(commaSplitted[1]) - startWeek;
         //interval contains a week after recess week
@@ -72,14 +93,14 @@ function Class({ day, text, semDate, classInfo, setClassInfo }) {
             break;
           }
         }
-        let postRecessWeek = [];
+        let postRecessWeek: string[] = [];
 
         if (flag !== -1) {
           postRecessWeek = commaSplitted.slice(flag);
           const postRecessBaseDate = new Date(
             new Date(semDate).getTime() +
               day * 24 * 60 * 60 * 1000 +
-              postRecessWeek[0] * 7 * 24 * 60 * 60 * 1000
+              parseInt(postRecessWeek[0]) * 7 * 24 * 60 * 60 * 1000
           );
           recessDate = postRecessBaseDate.toISOString().slice(0, 10);
           recessRecurrence = [
@@ -98,7 +119,24 @@ function Class({ day, text, semDate, classInfo, setClassInfo }) {
             commaSplitted.length - postRecessWeek.length
           }`,
         ];
-      }
+      } else if (weeks.includes("-")) {
+        // Wk2-13
+        const hyphenSplitted = weeks.split("-");
+        const startWeek = Number(hyphenSplitted[0]);
+        let endWeek = Number(hyphenSplitted[1]);
+        //ignore recess week and hence +1 to endWeek
+        if (endWeek > 7) {
+          endWeek++;
+          exception = "range";
+        }
+        baseDate = new Date(
+          new Date(semDate).getTime() +
+            day * 24 * 60 * 60 * 1000 +
+            (startWeek - 1) * 7 * 24 * 60 * 60 * 1000
+        );
+        date = baseDate.toISOString().slice(0, 10);
+        recurrence = [`RRULE:FREQ=WEEKLY;COUNT=${endWeek - startWeek + 1}`];
+      } 
     } else {
       //no Wk in text means class every week
       time = splitText[splitText.length - 1].slice(-10);
@@ -123,9 +161,6 @@ function Class({ day, text, semDate, classInfo, setClassInfo }) {
       2
     )}:${beginning.slice(2)}:00`;
     const recessEndTime = `${recessDate}T${end.slice(0, 2)}:${end.slice(2)}:00`;
-
-    //return the correct data determined by type of recess weej exception
-    let data = [];
 
     if (exception === "range" || exception === "every") {
       //skip the recess week date
@@ -210,9 +245,9 @@ function Class({ day, text, semDate, classInfo, setClassInfo }) {
     return data;
   }
 
-  function handleColorChange(e) {
+  function handleColorChange(e: any) {
     setColor(e.target.value);
-    const copy = Array.from(classInfo);
+    const copy: Data[] = Array.from(classInfo);
     copy.forEach((obj) => {
       if (obj.summary === summary) {
         obj.colorId = (colorIdList.indexOf(e.target.value) + 1).toString();
@@ -223,7 +258,7 @@ function Class({ day, text, semDate, classInfo, setClassInfo }) {
 
   useEffect(() => {
     const computed = computeData(day, text, semDate, color);
-    setClassInfo((prev) => [...prev, ...computed]);
+    setClassInfo((prev: Data[]) => [...prev, ...computed]);
     return () => {
       setClassInfo([]);
     };
