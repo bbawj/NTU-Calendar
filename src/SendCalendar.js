@@ -32,22 +32,39 @@ export default function SendCalendar({ info }) {
         },
       });
       // create events on new calendar
-      filteredInfo.forEach((event, index) => {
-        setTimeout(
-          gapi.client.request({
-            path: `https://www.googleapis.com/calendar/v3/calendars/${res.result.id}/events`,
-            method: "POST",
-            body: {
-              start: event.start,
-              end: event.end,
-              summary: event.summary,
-              location: event.location,
-              colorId: event.colorId,
-              recurrence: event.recurrence,
-            },
-          }).execute(), index * 200
-        )
-      });
+      for (const event of filteredInfo) {
+        let retries = 0;
+        const max_retries = 3;
+        while (retries < max_retries) {
+          try {
+            await new Promise( function (resolve, reject) {
+              setTimeout(async function() {
+                try {
+                  await gapi.client.request({
+                    path: `https://www.googleapis.com/calendar/v3/calendars/${res.result.id}/events`,
+                    method: "POST",
+                    body: {
+                      start: event.start,
+                      end: event.end,
+                      summary: event.summary,
+                      location: event.location,
+                      colorId: event.colorId,
+                      recurrence: event.recurrence,
+                    },
+                  })
+                  resolve()
+                } catch (e) {
+                  reject(e)
+                }
+              }, (2**retries - 1) * 100)
+            })
+            retries = max_retries
+          } catch (e) {
+            retries++
+            console.log(`retries remaining: ${max_retries - retries}`)
+          }
+        }
+      };
       setLoading(false);
       setPopup(true);
       setMessage("Successfully updated calendar");
